@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon - PingPong App</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-pen.css" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* === CẤU HÌNH BIẾN & MÀU SẮC === */
+        :root {
+            --bg-color: #ffffff; 
+            --main-font: 'Noto Sans KR', sans-serif;
+            --handwritten-font: 'NanumBarunPen', 'Nanum Barun Pen', sans-serif; 
+            --black-text: #000000;
+            --white-text: #ffffff;
+            --button-black: #000000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--black-text);
+            font-family: var(--main-font);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        /* === LAYOUT CONTAINER === */
+        .coming-soon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 650px; 
+            width: 100%;
+            position: relative;
+        }
+
+        /* === TIÊU ĐỀ "COMING SOON" === */
+        .title {
+            font-family: var(--handwritten-font);
+            font-size: 4.6rem; 
+            font-weight: bold;
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.02rem;
+        }
+
+        /* === KHU VỰC NHÂN VẬT & POP-UP === */
+        .character-wrapper {
+            position: relative;
+            display: inline-block; 
+            margin-bottom: 0.5rem; 
+        }
+
+        .pingpong-avatar {
+            width: 240px; 
+            height: auto;
+            transition: transform 0.2s ease;
+        }
+
+        .pingpong-avatar:active {
+            transform: scale(0.96);
+        }
+
+        /* === POP-UP BONG BÓNG THOẠI ĐẶT TRÊN CHỮ OPEN === */
+        .speech-bubble {
+            position: absolute;
+            top: 21%;  
+            left: 68%; 
+            transform: translate(-50%, -100%) scale(0.8);
+            transform-origin: bottom center;
+            background: #ffffff;
+            border: 3.5px solid #000000;
+            border-radius: 20px;
+            padding: 8px 18px;
+            font-family: var(--handwritten-font);
+            font-size: 1.6rem;
+            font-weight: bold;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 0px #000000;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -11px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 11px 8px 0;
+            border-style: solid;
+            border-color: #000000 transparent;
+            display: block;
+            width: 0;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 9px 6px 0;
+            border-style: solid;
+            border-color: #ffffff transparent;
+            display: block;
+            width: 0;
+            z-index: 11;
+        }
+
+        .speech-bubble.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -100%) scale(1);
+        }
+
+        /* === DẤU BA CHẤM === */
+        .dots {
+            font-size: 2rem; 
+            font-weight: bold;
+            margin-top: -0.5rem; 
+            margin-bottom: 2rem;
+            line-height: 1;
+            letter-spacing: 0.10rem;
+        }
+
+        /* === DÒNG CHỮ PHỤ 1 === */
+        .tagline {
+            font-size: 1.3rem; 
+            font-weight: 400;
+            margin-bottom: 1.5rem; /* Thu ngắn lại khoảng cách cho gọn gàng */
+            max-width: 100%;
+            line-height: 1.6;
+        }
+
+        /* === DÒNG CHỮ PHỤ 2 === */
+        .tagline2 {
+            font-size: 1rem; 
+            font-weight: 400;
+            margin-bottom: 3.5rem; /* ĐÃ ĐỔI TỪ 10rem VỀ 3.5rem ĐỂ KÉO NÚT LÊN TRÊN ĐẸP KHÍT BỐ CỤC */
+            max-width: 100%;
+            line-height: 1.6;
+        }
+
+        /* === KHỐI NÚT BẤM === */
+        .button-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* EFFECT NÚT APP STORE SVG */
+        .appstore-svg-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 70px; 
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+        }
+
+        .appstore-svg-img {
+            height: 100%; 
+            width: auto;  
+        }
+
+        /* Hover nút App Store nảy lên nhẹ */
+        .appstore-svg-link:hover {
+            transform: translateY(-4px) scale(1.02); 
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.22));
+        }
+
+        /* Bấm nút App Store lún xuống */
+        .appstore-svg-link:active {
+            transform: translateY(1px) scale(0.97); 
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
+        }
+
+        /* === FOOTER COPYRIGHT === */
+        .footer {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: #666;
+            margin-top: auto;
+            padding-top: 20px;
+            width: 100%;
+        }
+
+        /* === HOẠT ẢNH NHẢY === */
+        @keyframes characterJump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* === CẤU HÌNH MOBILE CHUẨN ĐẸP KHÔNG LỖI CO GIÃN === */
+        @media (max-width: 480px) {
+            .title { font-size: 3.2rem; margin-bottom: 2rem; }
+            .tagline { font-size: 1.05rem; }
+            .button-group { flex-direction: column; gap: 0.8rem; }
+            .appstore-svg-link { height: 58px; width: 196px; } /* Cố định width mobile cho nút không bị bẹt ảnh */
+            .appstore-svg-img { height: 100%; width: auto; }
+            .appstore-svg-link:hover { transform: translateY(-2px) scale(1.01); }
+            .appstore-svg-link:active { transform: translateY(1px) scale(0.98); }
+            .pingpong-avatar { width: 180px; } 
+            .speech-bubble { font-size: 1.3rem; }
+            .dots { margin-top: -0.2rem; font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="coming-soon-container">
+        
+        <h1 class="title">COMING SOON</h1>
+
+        <div class="character-wrapper">
+            <div class="speech-bubble" id="speech-bubble">Hế lô bạn nhỏ! 🥰</div>
+            
+            <div class="character-container" id="character-click-zone">
+                <img src="character.png" alt="PingPong Character" class="pingpong-avatar">
+            </div>
+        </div>
+
+        <div class="dots">Android chưa có đâu nhóc</div>
+
+        <p class="tagline">App này đang được 2 thằng ế phát triển và sớm sẽ mở rộng thêm!</p>
+        <p class="tagline2">Nếu muốn dùng app này thì phải chuyển vùng sang Hàn Quốc</p>
+
+        <div class="button-group">
+            <a href="https://apps.apple.com/kr/app/pingpong-couple/id6761013824?l=en-GB" class="appstore-svg-link" title="Download on the App Store">
+                <img src="app.svg" alt="Download on the App Store" class="appstore-svg-img">
+            </a>
+        </div>
+
+        <footer class="footer">
+            &copy; 2026 Copyright, PingPong Co., Ltd. All Rights Reserved.
+        </footer>
+
+    </div>
+
+<script>
+    const clickZone = document.getElementById('character-click-zone');
+    const bubble = document.getElementById('speech-bubble');
+    
+    const cuteTexts = [
+        "Hello ban iu nha!",
+        "Ban co ngiu chua vay?",
+        "Co roi thi app nay danh cho ban 🥺",
+        "Chi la ve len widget thoi",
+        "Nhu locket a",
+        "Con neu ban chua co",
+        "Thi cut con me may di. Cam on!"
+    ];
+
+    let currentIndex = 0;
+    let timeoutId;
+
+    clickZone.addEventListener('click', () => {
+        const currentText = cuteTexts[currentIndex];
+        bubble.textContent = currentText;
+        bubble.classList.add('show');
+        
+        currentIndex = (currentIndex + 1) % cuteTexts.length;
+        
+        clearTimeout(timeoutId);
+        
+        timeoutId = setTimeout(() => {
+            bubble.classList.remove('show');
+        }, 2500);
+    });
+</script>
+  
+</body>
+</html>

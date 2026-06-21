@@ -1,0 +1,279 @@
+/* === CẤU HÌNH BIẾN & MÀU SẮC === */
+:root {
+    --bg-color: #fdf2f4; 
+    --main-font: 'Noto Sans KR', sans-serif;
+    --handwritten-font: 'Mali', cursive, sans-serif; 
+    --black-text: #000000;
+    --white-text: #ffffff;
+    --button-black: #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--black-text);
+    font-family: var(--main-font);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+/* === LAYOUT CONTAINER === */
+.coming-soon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 650px; 
+    width: 100%;
+    position: relative;
+}
+
+/* === TIÊU ĐỀ "COMING SOON" === */
+.title {
+    font-family: var(--handwritten-font);
+    font-size: 4.6rem; 
+    font-weight: bold;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.02rem;
+}
+
+/* === KHU VỰC NHÂN VẬT & POP-UP === */
+.character-wrapper {
+    position: relative;
+    display: inline-block; 
+    margin-bottom: 0.5rem; 
+}
+
+.character-container {
+    animation: characterJump 2s ease-in-out infinite;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pingpong-avatar {
+    width: 240px; 
+    height: auto;
+    transition: transform 0.2s ease;
+}
+
+.pingpong-avatar:active {
+    transform: scale(0.96);
+}
+
+/* === POP-UP BONG BÓNG THOẠI ĐẶT TRÊN CHỮ OPEN === */
+.speech-bubble {
+    position: absolute;
+    top: 21%;  
+    left: 68%; 
+    transform: translate(-50%, -100%) scale(0.8);
+    transform-origin: bottom center;
+    background: #ffffff;
+    border: 3.5px solid #000000;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-family: var(--handwritten-font);
+    font-size: 1.4rem; 
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 4px 0px #000000;
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 11px 8px 0;
+    border-style: solid;
+    border-color: #000000 transparent;
+    display: block;
+    width: 0;
+}
+
+.speech-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 9px 6px 0;
+    border-style: solid;
+    border-color: #ffffff transparent;
+    display: block;
+    width: 0;
+    z-index: 11;
+}
+
+.speech-bubble.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -100%) scale(1);
+}
+
+/* === DẤU BA CHẤM === */
+.dots {
+    font-size: 3.5rem; 
+    font-weight: bold;
+    margin-top: -0.5rem; 
+    margin-bottom: 2rem;
+    line-height: 1;
+    letter-spacing: 0.15rem;
+}
+
+/* === DÒNG CHỮ PHỤ === */
+.tagline {
+    font-size: 1.3rem; 
+    font-weight: 400;
+    margin-bottom: 3.5rem;
+    max-width: 100%;
+    line-height: 1.6;
+}
+
+/* === KHỐI NÚT BẤM (GIAO DIỆN DESKTOP) === */
+.button-group {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* Nút WEBSITE dáng chữ nhật bo góc kèm hiệu ứng nảy */
+.website-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--button-black);
+    color: var(--white-text);
+    border-radius: 12px; 
+    text-decoration: none;
+    cursor: pointer;
+    height: 64px; 
+    padding: 0 32px;
+    gap: 0.7rem; 
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.website-button:hover {
+    transform: translateY(-4px) scale(1.02); 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.22); 
+    background-color: #222222; 
+}
+
+.website-button:active {
+    transform: translateY(1px) scale(0.97); 
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15); 
+}
+
+#custom-web-icon {
+    width: 24px; 
+    height: 24px;
+    fill: var(--white-text);
+    display: inline-block;
+}
+
+.website-button-text {
+    font-family: var(--handwritten-font);
+    font-size: 1.8rem; 
+    font-weight: 700;
+    letter-spacing: 0.02rem;
+}
+
+/* NÚT APP STORE SVG */
+.appstore-svg-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 64px; 
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+}
+
+.appstore-svg-img {
+    height: 100%; 
+    width: auto;  
+}
+
+.appstore-svg-link:hover {
+    transform: translateY(-4px) scale(1.02); 
+    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.22));
+}
+
+.appstore-svg-link:active {
+    transform: translateY(1px) scale(0.97); 
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
+}
+
+/* === FOOTER COPYRIGHT === */
+.footer {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #666;
+    margin-top: auto;
+    padding-top: 20px;
+    width: 100%;
+}
+
+/* === HOẠT ẢNH NHẢY === */
+@keyframes characterJump {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* === MOBILE RESPONSIVE (ĐÃ FIX LỖI CÂN BẰNG NÚT) === */
+@media (max-width: 480px) {
+    .title { font-size: 3.2rem; margin-bottom: 2rem; }
+    .tagline { font-size: 1.05rem; }
+    
+    /* Xếp dọc và căn giữa khối nút bấm */
+    .button-group { 
+        flex-direction: column; 
+        gap: 1rem; 
+        align-items: center; 
+    }
+    
+    /* Đặt chiều rộng WEBSITE cố định 196px */
+    .website-button { 
+        width: 196px; 
+        height: 58px; 
+        padding: 0 15px;
+    }
+    .website-button-text { font-size: 1.6rem; }
+    
+    /* Đặt chiều rộng khung chứa App Store bằng 196px */
+    .appstore-svg-link { 
+        height: 58px; 
+        width: 196px; 
+    }
+    .appstore-svg-img { 
+        height: 100%; 
+        width: auto; 
+    }
+    
+    /* Hiệu ứng mobile nhẹ nhàng hơn */
+    .website-button:hover, .appstore-svg-link:hover { transform: translateY(-2px) scale(1.01); }
+    .website-button:active, .appstore-svg-link:active { transform: translateY(1px) scale(0.98); }
+    
+    .pingpong-avatar { width: 180px; } 
+    .speech-bubble { font-size: 1.2rem; top: -40px; left: 24%; }
+    .dots { margin-top: -0.2rem; font-size: 2.5rem; }
+}
